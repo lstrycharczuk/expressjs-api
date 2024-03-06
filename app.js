@@ -21,7 +21,7 @@ app.use("/", generateNameRouter);
 app.use("/", tasksRouter);
 
 app.get("/", (req, resp) => {
-  resp.json({ message: "hi, go to /random-name to get a random name!" });
+  resp.json({ message: "hi, go to /random-name to get a random name or if you want to get tasks go to /todos" });
 });
 
 app.listen(port, () => {

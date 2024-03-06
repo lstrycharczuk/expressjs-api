@@ -19,8 +19,16 @@ const tasksRouter = express.Router();
 
 tasksRouter.get("/todos", async (req, resp) => {
   try {
-    const tasks = await TODO.find();
-    resp.json(tasks);
+    const perPage = parseInt(req.query.perPage) || 10;
+    const page = Math.max(0, parseInt(req.query.page) || 0)
+
+    const tasks = await TODO.find().limit(perPage).skip(perPage * page).exec();
+    const count = await  TODO.countDocuments().exec();
+    resp.json({ 
+      tasks, 
+      page: page,
+      totalPages: Math.ceil(count / perPage)
+    });
   } catch (err) {
     resp.status(500).json({ message: err.message });
   }
